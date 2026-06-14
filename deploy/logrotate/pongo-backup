@@ -1,0 +1,16 @@
+# Logrotate fragment for the pongo backup script.
+# Install: cp deploy/logrotate/pongo-backup /etc/logrotate.d/pongo-backup
+#
+# `su root adm` bypasses the "parent dir owned by non-root group"
+# safety check — /var/log on Ubuntu is root:adm 0775.
+
+/var/log/pongo-backup.log {
+    su root adm
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0640 root adm
+}

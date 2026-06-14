@@ -1,0 +1,34 @@
+# Pongo project landing (Next.js) — systemd unit
+# Install:  cp deploy/pongo.service /etc/systemd/system/pongo.service
+#           systemctl daemon-reload
+#           systemctl enable --now pongo
+# Logs:     journalctl -u pongo -f
+# Status:   systemctl status pongo
+
+[Unit]
+Description=Pongo project landing (Next.js)
+After=network.target
+
+[Service]
+Type=simple
+User=pongo
+Group=pongo
+WorkingDirectory=/opt/pongo-project-site
+EnvironmentFile=/opt/pongo-project-site/.env.production
+Environment=NODE_ENV=production
+Environment=PORT=3000
+ExecStart=/usr/bin/node /opt/pongo-project-site/node_modules/next/dist/bin/next start
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+KillSignal=SIGTERM
+
+# Light hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/pongo-project-site/.next
+PrivateTmp=true
+MemoryMax=768M
+
+[Install]
+WantedBy=multi-user.target

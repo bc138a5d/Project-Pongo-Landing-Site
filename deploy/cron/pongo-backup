@@ -1,0 +1,5 @@
+# Pongo project — daily backup at 03:00 UTC
+# Install: cp deploy/cron/pongo-backup /etc/cron.d/pongo-backup
+#          chmod 644 /etc/cron.d/pongo-backup
+
+0 3 * * * root /opt/pongo-project-site/scripts/backup.sh >> /var/log/pongo-backup.log 2>&1
